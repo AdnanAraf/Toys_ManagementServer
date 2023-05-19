@@ -37,6 +37,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/ToysData/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await ToysCollection.findOne(query);
+      res.send(result);
+    });
+
     app.post("/ToysData", async (req, res) => {
       const booking = req.body;
       console.log(booking);
