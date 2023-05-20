@@ -28,6 +28,10 @@ async function run() {
 
     const ToysCollection = client.db("ToysManagement").collection("ToysData");
 
+    const indexKeys = { category: 1, Toyname: 1 }; // Replace field1 and field2 with your actual field names
+    const indexOptions = { name: "ToyCategory" }; // Replace index_name with the desired index name
+    const result = await ToysCollection.createIndex(indexKeys, indexOptions);
+
     app.get("/ToysData", async (req, res) => {
       let query = {};
       if (req.query?.email) {
@@ -43,18 +47,48 @@ async function run() {
       const result = await ToysCollection.findOne(query);
       res.send(result);
     });
-
+    // Insert
     app.post("/ToysData", async (req, res) => {
       const booking = req.body;
       console.log(booking);
       const result = await ToysCollection.insertOne(booking);
       res.send(result);
     });
+    // Update
+    app.put("/ToysData/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedToys = req.body;
 
+      const Toys = {
+        $set: {
+          quantity: updatedToys.quantity,
+          price: updatedToys.price,
+          details: updatedToys.details,
+        },
+      };
+
+      const result = await ToysCollection.updateOne(filter, Toys, options);
+      res.send(result);
+    });
+    // Delete
     app.delete("/ToysData/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await ToysCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // Search Bar
+    app.get("/getJobsByText/:text", async (req, res) => {
+      const text = req.params.text;
+      const result = await ToysCollection.find({
+        $or: [
+          { category: { $regex: text, $options: "i" } },
+          { Toyname: { $regex: text, $options: "i" } },
+        ],
+      }).toArray();
       res.send(result);
     });
 
