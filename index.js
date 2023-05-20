@@ -42,10 +42,12 @@ async function run() {
     // });
 
     app.get("/myToys/:email", async (req, res) => {
-      console.log(req.params.email);
+      // console.log(req.params.email);
       const jobs = await ToysCollection.find({
         email: req.params.email,
-      }).toArray();
+      })
+        .sort({ price: -1 })
+        .toArray();
       res.send(jobs);
     });
 
