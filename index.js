@@ -32,12 +32,25 @@ async function run() {
     const indexOptions = { name: "ToyCategory" }; // Replace index_name with the desired index name
     const result = await ToysCollection.createIndex(indexKeys, indexOptions);
 
+    // app.get("/ToysData", async (req, res) => {
+    //   let query = {};
+    //   if (req.query?.email) {
+    //     query = { email: req.query.email };
+    //   }
+    //   const result = await ToysCollection.find(query).toArray();
+    //   res.send(result);
+    // });
+
+    app.get("/myToys/:email", async (req, res) => {
+      console.log(req.params.email);
+      const jobs = await ToysCollection.find({
+        email: req.params.email,
+      }).toArray();
+      res.send(jobs);
+    });
+
     app.get("/ToysData", async (req, res) => {
-      let query = {};
-      if (req.query?.email) {
-        query = { email: req.query.email };
-      }
-      const result = await ToysCollection.find(query).toArray();
+      const result = await ToysCollection.find().limit(20).toArray();
       res.send(result);
     });
 
