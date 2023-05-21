@@ -23,14 +23,14 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
 
     const ToysCollection = client.db("ToysManagement").collection("ToysData");
 
-    const indexKeys = { category: 1, Toyname: 1 }; // Replace field1 and field2 with your actual field names
-    const indexOptions = { name: "ToyCategory" }; // Replace index_name with the desired index name
-    const result = await ToysCollection.createIndex(indexKeys, indexOptions);
+    // const indexKeys = { category: 1, Toyname: 1 }; // Replace field1 and field2 with your actual field names
+    // const indexOptions = { name: "ToyCategory" }; // Replace index_name with the desired index name
+    // const result = await ToysCollection.createIndex(indexKeys, indexOptions);
 
     // app.get("/ShopsCategoryCollection", async (req, res) => {
     //   const result = await ShopCategoryCollection.find().toArray();
