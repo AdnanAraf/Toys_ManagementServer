@@ -32,12 +32,8 @@ async function run() {
     const indexOptions = { name: "ToyCategory" }; // Replace index_name with the desired index name
     const result = await ToysCollection.createIndex(indexKeys, indexOptions);
 
-    // app.get("/ToysData", async (req, res) => {
-    //   let query = {};
-    //   if (req.query?.email) {
-    //     query = { email: req.query.email };
-    //   }
-    //   const result = await ToysCollection.find(query).toArray();
+    // app.get("/ShopsCategoryCollection", async (req, res) => {
+    //   const result = await ShopCategoryCollection.find().toArray();
     //   res.send(result);
     // });
 
